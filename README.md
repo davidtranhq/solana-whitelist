@@ -1,10 +1,19 @@
 # Solana Whitelisting
 
-This Solana program (smart contract) provides basic whitelisting functionality using PDAs.
+This Solana program (smart contract) provides basic whitelisting functionality using PDAs. It was written using [Anchor](https://github.com/coral-xyz/anchor).
 
 The program is deployed on Solana's Devnet at `7Q5v4ftKm5Xk88NMf5kNCkvLmmBPcBfkynJA9x244i5Q`. It is not yet deployed on Mainnet.
 
 IDL files and TypeScript type files can be found in `target/`.
+
+## Build
+
+1. Install [Anchor](https://github.com/coral-xyz/anchor).
+1. Navigate to the project root and run `anchor build`. This compiles the project and generates a keypair for the program.
+1. Run `anchor keys list` to get the new public key for the program.
+1. Replace all occurences of the old public key in the project (`7Q5v4ftK`...) with the new public key.
+1. Run `anchor deploy` to deploy the compiled program on the blockchain.
+1. Run the tests with `anchor run test`.
 
 ## Endpoints
 ```rust
