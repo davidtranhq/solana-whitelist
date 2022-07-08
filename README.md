@@ -2,6 +2,10 @@
 
 This Solana program (smart contract) provides basic whitelisting functionality using PDAs.
 
+The program is deployed on Solana's Devnet at `7Q5v4ftKm5Xk88NMf5kNCkvLmmBPcBfkynJA9x244i5Q`. It is not yet deployed on Mainnet.
+
+IDL files and TypeScript type files can be found in `target/`.
+
 ## Endpoints
 ```rust
 init_whitelist(name: String) -> Result<()>
