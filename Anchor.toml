@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.devnet]
-whitelist = "7Q5v4ftKm5Xk88NMf5kNCkvLmmBPcBfkynJA9x244i5Q"
+[programs.localnet]
+whitelist = "3PoHw4QEd2zWi9VjUd52BVGi9YiVre6c86vkQSkahSxc"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "/home/david/.config/solana/id.json"
 
 [scripts]

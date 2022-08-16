@@ -3,7 +3,7 @@ use instructions::*;
 
 mod instructions;
 
-declare_id!("7Q5v4ftKm5Xk88NMf5kNCkvLmmBPcBfkynJA9x244i5Q");
+declare_id!("3PoHw4QEd2zWi9VjUd52BVGi9YiVre6c86vkQSkahSxc");
 
 #[program]
 pub mod whitelist {
@@ -12,7 +12,10 @@ pub mod whitelist {
     /**
      * Initialize a whitelist with the given name, associated with the authority of this transaction.
      */
-    pub fn init_whitelist(ctx: Context<InitWhitelist>, name: String) -> Result<()> {
+    pub fn init_whitelist(
+        ctx: Context<InitWhitelist>,
+        name: String
+    ) -> Result<()> {
         instructions::init_whitelist(ctx, name)
     }
 
@@ -21,14 +24,21 @@ pub mod whitelist {
      * associated with the authority of this transaction. The remaining lamports are sent to the
      * authority of this transaction.
      */
-    pub fn delete_whitelist(ctx: Context<DeleteWhitelist>, name: String, bump: u8) -> Result<()> {
+    pub fn delete_whitelist(
+        ctx: Context<DeleteWhitelist>,
+        name: String,
+        bump: u8
+    ) -> Result<()> {
         instructions::delete_whitelist(ctx, name, bump)
     }
     
     /**
      * Add the account `account_to_add` with the specified bump to the `whitelist` account.
      */
-    pub fn add_to_whitelist(ctx: Context<AddToWhitelist>, account_to_add: Pubkey) -> Result<()> {
+    pub fn add_to_whitelist(
+        ctx: Context<AddToWhitelist>,
+        account_to_add: Pubkey
+    ) -> Result<()> {
         instructions::add_to_whitelist(ctx, account_to_add)
     }
 
