@@ -7,13 +7,19 @@ const whitelist = new Map([
     {
       kind: 'struct',
       fields: [
-        ['authority', 'string'],
-        ['name', 'string'],
+        ['discriminator', [8]],
+        ['authority', [32]],
+        ['name', [32]],
       ]
     }
   ]
 ]);
 
 export async function deserializeWhitelist(buffer: Buffer) {
-  return deserialize(whitelist, Struct, buffer);
+  const struct = deserialize(whitelist, Struct, buffer) as any;
+  return {
+    authority: new TextDecoder().decode(struct.authority),
+    name: new TextDecoder().decode(struct.name),
+  };
 }
+

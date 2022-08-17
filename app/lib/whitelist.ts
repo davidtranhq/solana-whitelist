@@ -22,12 +22,11 @@ async function generateWhitelistEntry(
     );
 }
 
-async function createWhitelist(
+async function generateWhitelist(
   program: Program<Whitelist>,
   wallet: Wallet,
-  name: string
+  name: string,
 ) {
-  // generate a PDA from the users wallet and the whitelist name
   const [whitelist, whitelistBump] = await anchor.web3.PublicKey
     .findProgramAddress(
       [
@@ -36,6 +35,17 @@ async function createWhitelist(
       ],
       program.programId
     );
+  
+    return whitelist;
+}
+
+async function createWhitelist(
+  program: Program<Whitelist>,
+  wallet: Wallet,
+  name: string
+) {
+  // generate a PDA from the users wallet and the whitelist name
+  const whitelist = await generateWhitelist(program, wallet, name);
 
   try {
     await program.methods
@@ -47,33 +57,30 @@ async function createWhitelist(
       }).rpc();
   } catch (err) {
     console.log(err);
-    console.log(`Error creating whitelist`);
+    return false;
   }
-
-  return [whitelist, whitelistBump];
+  return true;
 }
 
 async function deleteWhitelist(
   program: Program<Whitelist>,
   wallet: Wallet,
   name: string,
-  bump: number
 ) {
-  const [whitelist, whitelistBump] = await anchor.web3.PublicKey
-    .findProgramAddress(
-      [
-        wallet.publicKey.toBytes(),
-        anchor.utils.bytes.utf8.encode(name)
-      ],
-      program.programId
-    );
+  const whitelist = await generateWhitelist(program, wallet, name);
   
-  await program.methods
-    .deleteWhitelist(name, bump)
-    .accounts({
-      whitelist,
-      authority: wallet.publicKey,
-    }).rpc();
+  try {
+    await program.methods
+      .deleteWhitelist(name)
+      .accounts({
+        whitelist,
+        authority: wallet.publicKey,
+      }).rpc();
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+  return true;
 
 }
 
@@ -90,18 +97,21 @@ async function addToWhitelist(
     addressToWhitelist
   );
 
-  await program.methods
-    .addToWhitelist(addressToWhitelist)
-    .accounts({
-      entry: whitelistEntry,
-      whitelist: whitelist,
-      authority: wallet.publicKey,
-      systemProgram: SystemProgram.programId,
-    })
-    .rpc();
-
-
-  return [whitelistEntry, entryBump];
+  try {
+    await program.methods
+      .addToWhitelist(addressToWhitelist)
+      .accounts({
+        entry: whitelistEntry,
+        whitelist: whitelist,
+        authority: wallet.publicKey,
+        systemProgram: SystemProgram.programId,
+      })
+      .rpc();
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+  return true;
 }
 
 async function deleteFromWhitelist(
@@ -115,15 +125,21 @@ async function deleteFromWhitelist(
     whitelist,
     addressToRemove,
   );
-  // remove the account
-  await program.methods
-    .removeFromWhitelist(addressToRemove, entryBump)
-    .accounts({
-      entry: whitelistEntry,
-      whitelist: whitelist,
-      authority: wallet.publicKey,
-    })
-    .rpc()
+
+  try {
+    // remove the account
+    await program.methods
+      .removeFromWhitelist(addressToRemove)
+      .accounts({
+        entry: whitelistEntry,
+        whitelist: whitelist,
+        authority: wallet.publicKey,
+      })
+      .rpc()
+  } catch (err) {
+    return false;
+  }
+  return true;
 }
 
 /**
@@ -145,8 +161,8 @@ async function checkWhitelisted(
   );
 
   try {
-    program.methods
-      .checkWhitelisted(addressToCheck, entryBump)
+    await program.methods
+      .checkWhitelisted(addressToCheck)
       .accounts({
         entry: whitelistEntry,
         whitelist: whitelist,
@@ -158,17 +174,33 @@ async function checkWhitelisted(
   }
 }
 
-async function getWhitelists(
-  connection: Connection,
-  programId: PublicKey,
-  // owner: PublicKey,
+/**
+ * Returns true if the whitelist with the given name exists, else returns false.
+ * @param program 
+ * @param whitelist 
+ * @param nam
+ * @returns 
+ */
+async function checkWhitelist(
+  program: Program<Whitelist>,
+  wallet: Wallet,
+  name: string,
 ) {
-  const accounts = await connection.getProgramAccounts(programId, 'processed');
-  console.log(accounts);
-  (window as any).result = accounts;
+  const whitelist = await generateWhitelist(program, wallet, name);
 
-  return accounts.map(async (struct) => await deserializeWhitelist(struct.account.data));
+  try {
+    await program.methods
+      .checkWhitelist(wallet.publicKey, name)
+      .accounts({
+        whitelist: whitelist,
+      })
+      .rpc()
+    return true;
+  } catch {
+    return false;
+  }
 }
+
 
 export {
   createWhitelist,
@@ -176,5 +208,6 @@ export {
   addToWhitelist,
   deleteFromWhitelist,
   checkWhitelisted,
-  getWhitelists,
+  checkWhitelist,
+  generateWhitelist,
 };

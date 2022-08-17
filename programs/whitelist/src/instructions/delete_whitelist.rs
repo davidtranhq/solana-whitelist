@@ -4,13 +4,12 @@ use crate::instructions::account;
 pub fn delete_whitelist(
     _ctx: Context<DeleteWhitelist>,
     _name: String,
-    _bump: u8
 ) -> Result<()> {
     Ok(())
 }
 
 #[derive(Accounts)]
-#[instruction(name: String, bump: u8)]
+#[instruction(name: String)]
 pub struct DeleteWhitelist<'info> {
     #[account(
         mut,

@@ -3,7 +3,7 @@ use instructions::*;
 
 mod instructions;
 
-declare_id!("CE4etmjs9562dmN6jzfWTEiWbJp934cwFwFsCNJk5jvp");
+declare_id!("42G39bs9zQ9UQoaDPGC9VjcxPokXgkzWQPzR7PQorSHa");
 
 #[program]
 pub mod whitelist {
@@ -27,9 +27,19 @@ pub mod whitelist {
     pub fn delete_whitelist(
         ctx: Context<DeleteWhitelist>,
         name: String,
-        bump: u8
     ) -> Result<()> {
-        instructions::delete_whitelist(ctx, name, bump)
+        instructions::delete_whitelist(ctx, name)
+    }
+
+    /**
+     * Check if the given whitelist exists (has been initalized).
+     */
+    pub fn check_whitelist(
+        ctx: Context<CheckWhitelist>,
+        owner: Pubkey,
+        name: String,
+    ) -> Result<()> {
+        instructions::check_whitelist(ctx, owner, name)
     }
     
     /**
@@ -49,9 +59,8 @@ pub mod whitelist {
     pub fn remove_from_whitelist(
         ctx: Context<RemoveFromWhitelist>,
         account_to_delete: Pubkey,
-        bump: u8
     ) -> Result<()> {
-        instructions::remove_from_whitelist(ctx, account_to_delete, bump)
+        instructions::remove_from_whitelist(ctx, account_to_delete)
     }
 
     /**
@@ -60,8 +69,7 @@ pub mod whitelist {
     pub fn check_whitelisted(
         ctx: Context<CheckWhitelisted>,
         account_to_check: Pubkey,
-        bump: u8
     ) -> Result<()> {
-        instructions::check_whitelisted(ctx, account_to_check, bump)
+        instructions::check_whitelisted(ctx, account_to_check)
     }
 }

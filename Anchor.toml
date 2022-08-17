@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.localnet]
-whitelist = "CE4etmjs9562dmN6jzfWTEiWbJp934cwFwFsCNJk5jvp"
+whitelist = "42G39bs9zQ9UQoaDPGC9VjcxPokXgkzWQPzR7PQorSHa"
 
 [registry]
 url = "https://anchor.projectserum.com"

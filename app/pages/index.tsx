@@ -1,10 +1,13 @@
-import WalletAdapter from '../components/WalletAdapter';
+import AnchorWalletProvider from '../components/AnchorWalletProvider';
+import CustomThemeProvider from '../components/CustomThemeProvider';
 import Home from './Home';
 
 export default function App() {
   return <>
-    <WalletAdapter>
-      <Home />
-    </WalletAdapter>
+    <AnchorWalletProvider>
+      <CustomThemeProvider>
+        <Home />
+      </CustomThemeProvider>
+    </AnchorWalletProvider>
   </>
 }

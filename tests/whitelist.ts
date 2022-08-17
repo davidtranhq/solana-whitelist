@@ -24,7 +24,7 @@ describe("whitelist", () => {
     anchor.setProvider(provider);
     wallet = provider.wallet;
     program = anchor.workspace.Whitelist as anchor.Program<Whitelist>;
-    whitelistName = "Whitelist Test";
+    whitelistName = "Whitelist Test1";
     accountToWhitelist = anchor.web3.Keypair.generate();
 
     [whitelist, whitelistBump] = await anchor.web3.PublicKey
@@ -39,6 +39,15 @@ describe("whitelist", () => {
     console.log("Whitelist bump", whitelistBump.toString());
   })
   
+  it("check whitelist", async () => {
+    await program.methods
+      .checkWhitelist(wallet.publicKey, "mmqmm")
+      .accounts({
+        whitelist,
+      })
+      .rpc();
+  });
+
   it("creates whitelist", async () => {
     await program.methods
       .initWhitelist(whitelistName)
@@ -77,7 +86,7 @@ describe("whitelist", () => {
 
     // check if the address is whitelisted
     await program.methods
-      .checkWhitelisted(accountToWhitelist.publicKey, entryBump)
+      .checkWhitelisted(accountToWhitelist.publicKey)
       .accounts({
         entry: whitelistEntry,
         whitelist: whitelist,
@@ -96,7 +105,7 @@ describe("whitelist", () => {
       );
     // remove the account
     await program.methods
-      .removeFromWhitelist(accountToWhitelist.publicKey, entryBump)
+      .removeFromWhitelist(accountToWhitelist.publicKey)
       .accounts({
         entry: whitelistEntry,
         whitelist: whitelist,
@@ -107,7 +116,7 @@ describe("whitelist", () => {
     // check that the account is no longer whitelisted
     await expect(
       program.methods
-        .checkWhitelisted(accountToWhitelist.publicKey, entryBump)
+        .checkWhitelisted(accountToWhitelist.publicKey)
         .accounts({
           entry: whitelistEntry,
           whitelist: whitelist,
@@ -118,7 +127,7 @@ describe("whitelist", () => {
 
   it("deletes whitelist", async () => {
     await program.methods
-      .deleteWhitelist(whitelistName, whitelistBump)
+      .deleteWhitelist(whitelistName)
       .accounts({
         whitelist,
         authority: wallet.publicKey,

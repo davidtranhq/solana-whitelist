@@ -46,10 +46,26 @@
         {
           "name": "name",
           "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "checkWhitelist",
+      "accounts": [
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "publicKey"
         },
         {
-          "name": "bump",
-          "type": "u8"
+          "name": "name",
+          "type": "string"
         }
       ]
     },
@@ -107,10 +123,6 @@
         {
           "name": "accountToDelete",
           "type": "publicKey"
-        },
-        {
-          "name": "bump",
-          "type": "u8"
         }
       ]
     },
@@ -132,10 +144,6 @@
         {
           "name": "accountToCheck",
           "type": "publicKey"
-        },
-        {
-          "name": "bump",
-          "type": "u8"
         }
       ]
     }
@@ -175,6 +183,6 @@
     }
   ],
   "metadata": {
-    "address": "CE4etmjs9562dmN6jzfWTEiWbJp934cwFwFsCNJk5jvp"
+    "address": "42G39bs9zQ9UQoaDPGC9VjcxPokXgkzWQPzR7PQorSHa"
   }
 }

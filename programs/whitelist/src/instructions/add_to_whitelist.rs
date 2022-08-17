@@ -7,7 +7,7 @@ pub fn add_to_whitelist(
 ) -> Result<()> {
     let entry = &mut ctx.accounts.entry;
     entry.whitelisted = account_to_add;
-
+    entry.parent = ctx.accounts.whitelist.key();
     Ok(())
 }
 

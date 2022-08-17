@@ -46,10 +46,26 @@ export type Whitelist = {
         {
           "name": "name",
           "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "checkWhitelist",
+      "accounts": [
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "publicKey"
         },
         {
-          "name": "bump",
-          "type": "u8"
+          "name": "name",
+          "type": "string"
         }
       ]
     },
@@ -107,10 +123,6 @@ export type Whitelist = {
         {
           "name": "accountToDelete",
           "type": "publicKey"
-        },
-        {
-          "name": "bump",
-          "type": "u8"
         }
       ]
     },
@@ -132,10 +144,6 @@ export type Whitelist = {
         {
           "name": "accountToCheck",
           "type": "publicKey"
-        },
-        {
-          "name": "bump",
-          "type": "u8"
         }
       ]
     }
@@ -224,10 +232,26 @@ export const IDL: Whitelist = {
         {
           "name": "name",
           "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "checkWhitelist",
+      "accounts": [
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "publicKey"
         },
         {
-          "name": "bump",
-          "type": "u8"
+          "name": "name",
+          "type": "string"
         }
       ]
     },
@@ -285,10 +309,6 @@ export const IDL: Whitelist = {
         {
           "name": "accountToDelete",
           "type": "publicKey"
-        },
-        {
-          "name": "bump",
-          "type": "u8"
         }
       ]
     },
@@ -310,10 +330,6 @@ export const IDL: Whitelist = {
         {
           "name": "accountToCheck",
           "type": "publicKey"
-        },
-        {
-          "name": "bump",
-          "type": "u8"
         }
       ]
     }
