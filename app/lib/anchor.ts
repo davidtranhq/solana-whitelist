@@ -1,7 +1,7 @@
 import * as anchor from '@project-serum/anchor';
 import { Program, Wallet } from '@project-serum/anchor';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
-import { Whitelist } from './whitelist';
+import { Whitelist } from './idl';
 
 /**
  * Generate the PDA for a whitelist entry.

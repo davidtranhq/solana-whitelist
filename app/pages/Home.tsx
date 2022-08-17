@@ -14,9 +14,9 @@ import {
   deleteFromWhitelist,
   checkWhitelisted,
 } from '../lib/anchor';
-import idl from '../lib/idl';
-import { IDL, Whitelist } from '../lib/whitelist';
 
+import idl from '../lib/idl.json';
+import { IDL, Whitelist } from '../lib/idl';
 
 declare global {
   interface Window {
@@ -36,11 +36,13 @@ export default function Home() {
 
   const onCreate = async () => console.log(await createWhitelist(program, wallet, window.whitelistName));
   const onDelete = async () => deleteWhitelist(program, wallet, window.whitelistName, window.whitelistBump);
+  const getAccounts = async () => console.log(await connection.getParsedProgramAccounts(programID));
 
   return <>
     <WalletMultiButton />
     <WalletDisconnectButton />
     <button onClick={onCreate}>Create Whitelist</button>
     <button onClick={onDelete}>Delete Whitelist</button>
+    <button onClick={getAccounts}>Get Accounts</button>
   </>
 }
