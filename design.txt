@@ -1,0 +1,37 @@
+Requirements:
+- Cheap: low SOL storage cost, low compute unit usage
+- Easy to use for both an administrator and a developer
+- Fast
+- Non-prescriptive, unopinionated
+
+Design:
+
+
+         +--------------+
+         |              |
+         |  UserWallet  |
+         |              |
+         +-------+------+
+                 |
+                 |  PDA derives (Pubkey + name)
+                 |
+      +----------v----------+
+      | WhitelistBase       |
+      |                     |
+      | - name: String      |
+      | - authority: Pubkey |
+      +---------+-----------+
+                |
+                |
+                |   PDA derives (Pubkey + whitelisted)
+                |
+    +-----------v------------+
+    |  WhitelistEntry        |
+    |                        |
+    |  - parent: Pubkey      |
+    |  - whitelisted: Pubkey |
+    +------------------------+
+
+
+O(1) access, insertion, deletion
+O(n) space, horizontal scaling is preferred on the chain

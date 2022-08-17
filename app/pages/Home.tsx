@@ -235,7 +235,7 @@ export default function Home() {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh"
+      minHeight="95vh"
     >
       <Stack sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={2}>
         <Typography variant="h3">Solana Whitelisting</Typography>
