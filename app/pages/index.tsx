@@ -1,15 +1,10 @@
-import WalletAdapter from './components/WalletAdapter'; 
-import {
-  WalletDisconnectButton,
-  WalletMultiButton
-} from '@solana/wallet-adapter-react-ui';
+import WalletAdapter from '../components/WalletAdapter';
+import Home from './Home';
 
-export default function Home() {
+export default function App() {
   return <>
     <WalletAdapter>
-      <WalletMultiButton />
-      <WalletDisconnectButton />
-      <div>Hello, world!</div>
+      <Home />
     </WalletAdapter>
   </>
 }

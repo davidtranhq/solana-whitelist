@@ -36,6 +36,10 @@ async function createWhitelist(
       program.programId
     );
 
+  console.log('whitelist:', whitelist);
+  console.log('authority:', wallet.publicKey);
+  console.log('sys_prog:', SystemProgram);
+
   try {
     await program.methods
       .initWhitelist(name)
@@ -44,9 +48,36 @@ async function createWhitelist(
         authority: wallet.publicKey,
         systemProgram: SystemProgram.programId,
       }).rpc();
-  } catch {
+  } catch (err) {
+    console.log(err);
     console.log(`Error creating whitelist`);
   }
+
+  return [whitelist, whitelistBump];
+}
+
+async function deleteWhitelist(
+  program: Program<Whitelist>,
+  wallet: Wallet,
+  name: string,
+  bump: number
+) {
+  const [whitelist, whitelistBump] = await anchor.web3.PublicKey
+    .findProgramAddress(
+      [
+        wallet.publicKey.toBytes(),
+        anchor.utils.bytes.utf8.encode(name)
+      ],
+      program.programId
+    );
+  
+  await program.methods
+    .deleteWhitelist(name, bump)
+    .accounts({
+      whitelist,
+      authority: wallet.publicKey,
+    }).rpc();
+
 }
 
 async function addToWhitelist(
@@ -71,6 +102,9 @@ async function addToWhitelist(
       systemProgram: SystemProgram.programId,
     })
     .rpc();
+
+
+  return [whitelistEntry, entryBump];
 }
 
 async function deleteFromWhitelist(
@@ -129,6 +163,7 @@ async function checkWhitelisted(
 
 export {
   createWhitelist,
+  deleteWhitelist,
   addToWhitelist,
   deleteFromWhitelist,
   checkWhitelisted,
