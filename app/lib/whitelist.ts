@@ -2,6 +2,7 @@ import * as anchor from '@project-serum/anchor';
 import { Program, Wallet } from '@project-serum/anchor';
 import { Connection, PublicKey, SystemProgram } from '@solana/web3.js';
 import { Whitelist } from './idl';
+import { deserializeWhitelist } from './deserialize';
 
 /**
  * Generate the PDA for a whitelist entry.
@@ -159,9 +160,14 @@ async function checkWhitelisted(
 
 async function getWhitelists(
   connection: Connection,
-  owner: PublicKey,
+  programId: PublicKey,
+  // owner: PublicKey,
 ) {
-  return await connection.getParsedAccountInfo(owner);
+  const accounts = await connection.getProgramAccounts(programId, 'processed');
+  console.log(accounts);
+  (window as any).result = accounts;
+
+  return accounts.map(async (struct) => await deserializeWhitelist(struct.account.data));
 }
 
 export {
