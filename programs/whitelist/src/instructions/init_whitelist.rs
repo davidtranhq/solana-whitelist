@@ -3,11 +3,12 @@ use crate::instructions::account;
 
 pub fn init_whitelist(
     ctx: Context<InitWhitelist>,
-    _name: String // user-provided name of the whitelist
+    name: String // user-provided name of the whitelist
 ) -> Result<()> {
     let whitelist = &mut ctx.accounts.whitelist;
     // add the account that created this whitelist as the whitelist admin
     whitelist.authority = *ctx.accounts.authority.signer_key().unwrap();
+    whitelist.name = name;
     Ok(())
 }
 

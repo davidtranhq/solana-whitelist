@@ -2,9 +2,12 @@ use anchor_lang::prelude::*;
 use crate::instructions::account;
 
 pub fn add_to_whitelist(
-    _ctx: Context<AddToWhitelist>,
-    _account_to_add: Pubkey
+    ctx: Context<AddToWhitelist>,
+    account_to_add: Pubkey
 ) -> Result<()> {
+    let entry = &mut ctx.accounts.entry;
+    entry.whitelisted = account_to_add;
+
     Ok(())
 }
 
