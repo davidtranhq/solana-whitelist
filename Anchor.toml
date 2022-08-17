@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.localnet]
-whitelist = "3PoHw4QEd2zWi9VjUd52BVGi9YiVre6c86vkQSkahSxc"
+whitelist = "CE4etmjs9562dmN6jzfWTEiWbJp934cwFwFsCNJk5jvp"
 
 [registry]
 url = "https://anchor.projectserum.com"
@@ -12,3 +12,4 @@ wallet = "/home/david/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+export = "cp target/idl/whitelist.json app/lib/idl.json && cp target/types/whitelist.ts app/lib/idl.ts"

@@ -149,6 +149,10 @@ export type Whitelist = {
           {
             "name": "authority",
             "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
           }
         ]
       }
@@ -157,7 +161,16 @@ export type Whitelist = {
       "name": "whitelistEntry",
       "type": {
         "kind": "struct",
-        "fields": []
+        "fields": [
+          {
+            "name": "parent",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelisted",
+            "type": "publicKey"
+          }
+        ]
       }
     }
   ]
@@ -314,6 +327,10 @@ export const IDL: Whitelist = {
           {
             "name": "authority",
             "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
           }
         ]
       }
@@ -322,7 +339,16 @@ export const IDL: Whitelist = {
       "name": "whitelistEntry",
       "type": {
         "kind": "struct",
-        "fields": []
+        "fields": [
+          {
+            "name": "parent",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelisted",
+            "type": "publicKey"
+          }
+        ]
       }
     }
   ]

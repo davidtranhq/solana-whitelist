@@ -1,6 +1,6 @@
 import * as anchor from '@project-serum/anchor';
 import { Program, Wallet } from '@project-serum/anchor';
-import { PublicKey, SystemProgram } from '@solana/web3.js';
+import { Connection, PublicKey, SystemProgram } from '@solana/web3.js';
 import { Whitelist } from './idl';
 
 /**
@@ -35,10 +35,6 @@ async function createWhitelist(
       ],
       program.programId
     );
-
-  console.log('whitelist:', whitelist);
-  console.log('authority:', wallet.publicKey);
-  console.log('sys_prog:', SystemProgram);
 
   try {
     await program.methods
@@ -161,10 +157,18 @@ async function checkWhitelisted(
   }
 }
 
+async function getWhitelists(
+  connection: Connection,
+  owner: PublicKey,
+) {
+  return await connection.getParsedAccountInfo(owner);
+}
+
 export {
   createWhitelist,
   deleteWhitelist,
   addToWhitelist,
   deleteFromWhitelist,
   checkWhitelisted,
+  getWhitelists,
 };

@@ -149,6 +149,10 @@
           {
             "name": "authority",
             "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
           }
         ]
       }
@@ -157,11 +161,17 @@
       "name": "WhitelistEntry",
       "type": {
         "kind": "struct",
-        "fields": []
+        "fields": [
+          {
+            "name": "parent",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelisted",
+            "type": "publicKey"
+          }
+        ]
       }
     }
-  ],
-  "metadata": {
-    "address": "3PoHw4QEd2zWi9VjUd52BVGi9YiVre6c86vkQSkahSxc"
-  }
+  ]
 }

@@ -13,7 +13,8 @@ import {
   addToWhitelist,
   deleteFromWhitelist,
   checkWhitelisted,
-} from '../lib/anchor';
+  getWhitelists,
+} from '../lib/whitelist';
 
 import idl from '../lib/idl.json';
 import { IDL, Whitelist } from '../lib/idl';
@@ -36,7 +37,7 @@ export default function Home() {
 
   const onCreate = async () => console.log(await createWhitelist(program, wallet, window.whitelistName));
   const onDelete = async () => deleteWhitelist(program, wallet, window.whitelistName, window.whitelistBump);
-  const getAccounts = async () => console.log(await connection.getParsedProgramAccounts(programID));
+  const getAccounts = async () => console.log(await getWhitelists(programID));
 
   return <>
     <WalletMultiButton />

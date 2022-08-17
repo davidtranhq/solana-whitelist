@@ -3,7 +3,7 @@ use instructions::*;
 
 mod instructions;
 
-declare_id!("3PoHw4QEd2zWi9VjUd52BVGi9YiVre6c86vkQSkahSxc");
+declare_id!("CE4etmjs9562dmN6jzfWTEiWbJp934cwFwFsCNJk5jvp");
 
 #[program]
 pub mod whitelist {
