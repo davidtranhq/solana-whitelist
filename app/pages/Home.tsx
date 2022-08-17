@@ -37,7 +37,7 @@ export default function Home() {
 
   const onCreate = async () => console.log(await createWhitelist(program, wallet, window.whitelistName));
   const onDelete = async () => deleteWhitelist(program, wallet, window.whitelistName, window.whitelistBump);
-  const getAccounts = async () => console.log(await getWhitelists(programID));
+  const getAccounts = async () => console.log(await getWhitelists(connection, programID));
 
   return <>
     <WalletMultiButton />
