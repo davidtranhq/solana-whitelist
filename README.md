@@ -25,17 +25,16 @@ Arguments:
 - `name: String` The identifying name of this whitelist. Since whitelists are tied to the signer's wallet, the name need be unique to other whitelists initialized by the signer.
 
 Accounts:
-- `whitelist` The whitelist to be initialized. The address should be a PDA derived from this whitelisting program address and seeded with the signer's public key and the whitelist name (as bytes). Use the canonical bump.
+- `whitelist` The whitelist to be initialized. The address should be a PDA derived from this whitelisting program address and seeded with the signer's public key and the whitelist name (as bytes). Uses the canonical bump.
 - `authority` The signer of this transaction. This account will pay for the whitelist and new whitelist entries. Only this account is able to add to the whitelist.
 
 ```rust
-delete_whitelist(name: String, bump: u8) -> Result<()>
+delete_whitelist(name: String) -> Result<()>
 ```
 Note that deleting a whitelist does not delete the whitelist entries associated with it. Use `remove_from_whitelist` to delete whitelist entries.
 
 Arguments:
 - `name: String` The name of the whitelist to delete.
-- `bump: u8` The bump associated with the PDA of the whitelist to delete.
 
 Accounts:
 - `whitelist` The whitelist to delete. This account will be closed and remaining lamports will be sent to `authority`.
@@ -50,17 +49,17 @@ Arguments:
 - `account_to_whitelist: Pubkey` The address of the account to add to the whitelist.
 
 Accounts:
-- `entry` The account to store the new whitelist entry. The address should be a PDA derived from this whitelisting program address and seeded with `account_to_add` and the public key of `whitelist`. Use the canonical bump.
+- `entry` The account to store the new whitelist entry. The address should be a PDA derived from this whitelisting program address and seeded with `account_to_add` and the public key of `whitelist`. Uses
+the canonical bump.
 - `whitelist` The whitelist to add to, initialized with `init_whitelist`. `authority` must be the one who initialized this whitelist.
 - `authority` The signer of this transaction. This must correspond to the account that initialized the whitelist.
 
 ```rust
-remove_from_whitelist(account_to_delete: Pubkey, bump: u8) -> Result<()>
+delete_from_whitelist(account_to_delete: Pubkey) -> Result<()>
 ```
 
 Arguments:
 - `account_to_delete: Pubkey` The address of the account to remove from the whitelist.
-- `bump: u8` The bump associated with the PDA of the whitelist entry to delete.
 
 Accounts:
 - `entry` The whitelist entry (initialized with `add_to_whitelist`) corresponding with `account_to_delete`.
@@ -68,13 +67,12 @@ Accounts:
 - `authority` The signer of this transaction. This must correspond to the account that initialized the whitelist.
 
 ```rust
-check_whitelisted(account_to_check: Pubkey, bump: u8) -> Result<()>
+check_whitelisted(account_to_check: Pubkey) -> Result<()>
 ```
 Throws an `AnchorError` if the user is not whitelisted. Unlike other endpoints, this endpoint can be called even by those who did not create the whitelist.
 
 Arguments:
 - `account_to_check` The public key of the account whose whitelisting status will be checked.
-- `bump` The bump corresponding to `entry`.
 
 Accounts:
 - `entry` The whitelisting entry of `account_to_check` (initialized with `add_to_whitelist`).
@@ -158,7 +156,7 @@ Use the `check_whitelisted` endpoint: `check_whitelisted` throws if the user is 
 ```typescript
 try {
     await program.methods
-        .checkWhitelisted(accountToWhitelist.publicKey, entryBump)
+        .checkWhitelisted(accountToWhitelist.publicKey)
         .accounts({
             entry: whitelistEntry,
             whitelist: whitelist,
@@ -172,11 +170,11 @@ try {
 
 ### Deleting an account from the whitelist
 
-Use the `remove_from_whitelist` endpoint. Only the creator of the whitelist can remove from the whitelist. The remaining lamports stored in the whitelist entry account are returned to the authority (creator of the whitelist).
+Use the `delete_from_whitelist` endpoint. Only the creator of the whitelist can remove from the whitelist. The remaining lamports stored in the whitelist entry account are returned to the authority (creator of the whitelist).
 
 ```typescript
 await program.methods
-    .removeFromWhitelist(accountToWhitelist.publicKey, entryBump)
+    .deleteFromWhitelist(accountToWhitelist.publicKey)
     .accounts({
         entry: whitelistEntry,
         whitelist: whitelist,
@@ -193,7 +191,7 @@ This endpoint does NOT remove corresponding whitelist entries; they have to be r
 
 ```typescript
 await program.methods
-    .deleteWhitelist(whitelistName, whitelistBump)
+    .deleteWhitelist(whitelistName)
     .accounts({
     whitelist,
     authority: wallet.publicKey,
